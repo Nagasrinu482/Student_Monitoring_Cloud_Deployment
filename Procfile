@@ -1,0 +1,1 @@
+web: gunicorn Student_Monitoring_Cloud_Deployment.wsgi --log-file -

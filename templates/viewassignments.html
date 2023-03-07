@@ -1,0 +1,93 @@
+{% load  static%}
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<title>Voidmain</title>
+<link rel="stylesheet" type="text/css" href="{% static 'style/style.css'%}" title="style" />
+    <style>
+        #customers {
+          font-family: Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        #customers td, #customers th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+        #customers tr:hover {background-color: #ddd;}
+
+        #customers th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #4CAF50;
+          color: white;
+        }
+    </style>
+</head>
+
+<body>
+	<div id="main">
+		<div id="header">
+			<div id="logo">
+				<div id="logo_text">
+					<!-- class="logo_colour", allows you to change the colour of the text -->
+					<h3>
+						<div align="center">
+                            <a href="#"><font color="white">Student Monitoring</font></a>
+                        </div>
+					</h3>
+					<br/><br/>
+				</div>
+			</div>
+			<div id="menubar">
+				<ul id="menu">
+
+                    {% if request.session.role in "faculty" %}
+                        <li><a href="/addattendance/">Add Attendance</a></li>
+                        <li><a href="/viewattendance">Attendance</a></li>
+                        <li><a href="/uploadmarks">Upload Marks</a></li>
+                        <li><a href="/viewmarks">Marks</a></li>
+                        <li><a href="/uploadassignment">Upload Assignment</a></li>
+                    {% endif %}
+
+                    {% if request.session.role in "student" %}
+                        <li><a href="/viewstudentattendance?username={{ request.session.username }}">Attendance</a></li>
+                        <li><a href="/viewmarksaction?username={{ request.session.username }}">Marks</a></li>
+                    {% endif %}
+
+                    <li><a href="/viewassignments">Assignments</a></li>
+                    <li><a href="/logout">Logout</a></li>
+
+				</ul>
+			</div>
+		</div>
+		<div id="content_header"></div>
+		<div id="site_content">
+			<div id="content">
+
+				<h1>{{message}}</h1>
+
+                <table id="customers">
+                  <tr>
+                      <th>Subject</th>
+                      <th>Assignment Document</th>
+                  </tr>
+                    {% for assignment in assignments%}
+                        <tr>
+                            <td>{{ assignment.subjectcode }}</td>
+                            <td><a href="{% static ''%}{{assignment.document}}" download target="_blank">download</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
